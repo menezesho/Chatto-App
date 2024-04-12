@@ -21,34 +21,25 @@ class AuthService {
   }
 
   // Autenicação com Google
-  Future<UserCredential> signInWithGoogle() async {
+  signInWithGoogle() async {
     try {
       // Antes de iniciar o processo de autenticação
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-  
-      // Verificação de cancelamento
-      if (googleUser == null) {
-        // Lança uma exceção se o usuário cancelar a operação
-        throw Exception('A operação foi cancelada pelo usuário');
-      }
-  
+
       // Obtenção dos detalhes da autenticação
       final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
-  
+          await googleUser!.authentication;
+
       // Criação da credencial do usuário
-      final OAuthCredential googleCredential = GoogleAuthProvider.credential(
+      final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-  
+
       // Autenticação do usuário
-      final UserCredential userCredential =
-          await _firebaseAuth.signInWithCredential(googleCredential);
-  
-      return userCredential;
+      return await FirebaseAuth.instance.signInWithCredential(credential);
     } on FirebaseAuthException catch (e) {
-      throw Exception(e.code);
+      throw Exception(e.toString());
     }
   }
 
