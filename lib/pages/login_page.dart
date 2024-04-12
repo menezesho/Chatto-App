@@ -40,124 +40,121 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(32),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Logo
-                const Icon(
-                  Icons.message,
-                  size: 100,
-                ),
-                const SizedBox(height: 40),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(32),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Logo
+              const Icon(
+                Icons.message,
+                size: 100,
+              ),
+              const SizedBox(height: 40),
 
-                // Boas vindas
-                Text(
-                  "Boas vindas ao Chatto!",
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
-                const SizedBox(height: 52),
+              // Boas vindas
+              Text(
+                "Boas vindas ao Chatto!",
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
+              const SizedBox(height: 52),
 
-                // Campo de e-mail
-                TextFieldCustom(
-                  controller: emailController,
-                  hintText: 'E-mail',
-                ),
-                const SizedBox(height: 12),
+              // Campo de e-mail
+              TextFieldCustom(
+                controller: emailController,
+                hintText: 'E-mail',
+              ),
+              const SizedBox(height: 12),
 
-                // Campo de senha
-                TextFieldCustom(
-                  controller: passwordController,
-                  hintText: 'Senha',
-                  obscureText: true,
-                ),
-                const SizedBox(height: 32),
+              // Campo de senha
+              TextFieldCustom(
+                controller: passwordController,
+                hintText: 'Senha',
+                obscureText: true,
+              ),
+              const SizedBox(height: 32),
 
-                // Botão de autenticação
-                ElevatedButtonCustom(
-                  onPressed: () {
-                    signIn();
-                  },
-                  text: 'Entrar',
-                ),
-                const SizedBox(height: 16),
+              // Botão de autenticação
+              ElevatedButtonCustom(
+                onPressed: () {
+                  signIn();
+                },
+                text: 'Entrar',
+              ),
+              const SizedBox(height: 16),
 
-                // Divisor
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Divider(
-                          thickness: 0.5,
-                          color: Colors.grey[400],
+              // Divisor
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Divider(
+                        thickness: 0.5,
+                        color: Colors.grey[400],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Text(
+                        'Or continue with',
+                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                              color: Colors.grey.shade700,
+                              fontSize: 14,
+                            ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Divider(thickness: 0.5, color: Colors.grey[400]),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 8),
+
+              // Botão de autenticação com Google
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () => AuthService().signInWithGoogle(),
+                    child: Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade200,
+                          shape: BoxShape.circle,
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Text(
-                          'Or continue with',
-                          style:
-                              Theme.of(context).textTheme.titleSmall!.copyWith(
-                                    color: Colors.grey.shade700,
-                                    fontSize: 14,
-                                  ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Divider(thickness: 0.5, color: Colors.grey[400]),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 8),
+                        child: Image.asset(
+                          'assets/google.png',
+                          height: 24,
+                        )),
+                  )
+                ],
+              ),
+              const SizedBox(height: 32),
 
-                // Botão de autenticação com Google
-                Row(
+              // Botão de cadastro
+              GestureDetector(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    GestureDetector(
-                      onTap: () => AuthService().signInWithGoogle(),
-                      child: Container(
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade200,
-                            shape: BoxShape.circle,
+                    Text("Não tem uma conta?",
+                        style: Theme.of(context).textTheme.titleSmall),
+                    const SizedBox(width: 4),
+                    Text(
+                      "Cadastre-se!",
+                      style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                            fontWeight: FontWeight.bold,
                           ),
-                          child: Image.asset(
-                            'assets/google.png',
-                            height: 24,
-                          )),
                     )
                   ],
                 ),
-                const SizedBox(height: 32),
-
-                // Botão de cadastro
-                GestureDetector(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Não tem uma conta?",
-                          style: Theme.of(context).textTheme.titleSmall),
-                      const SizedBox(width: 4),
-                      Text(
-                        "Cadastre-se!",
-                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
-                      )
-                    ],
-                  ),
-                  onTap: () {
-                    widget.onTap!();
-                  },
-                ),
-              ],
-            ),
+                onTap: () {
+                  widget.onTap!();
+                },
+              ),
+            ],
           ),
         ),
       ),
